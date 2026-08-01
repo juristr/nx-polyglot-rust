@@ -2,6 +2,16 @@
   "extends": "./tsconfig.base.json",
   "compileOnSave": false,
   "files": [],
-  "references": [],
+  "references": [
+    {
+      "path": "./packages/dashboard-data"
+    },
+    {
+      "path": "./packages/dashboard-ui"
+    },
+    {
+      "path": "./apps/web"
+    }
+  ],
   "compilerOptions": {}
 }

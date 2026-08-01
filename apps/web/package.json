@@ -11,7 +11,15 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "nx": {
+    "name": "web",
+    "tags": [
+      "scope:web",
+      "type:app"
+    ]
+  },
   "dependencies": {
+    "@polyglot/dashboard-ui": "workspace:*",
     "@tanstack/react-router": "latest",
     "@tanstack/react-start": "latest",
     "react": "^19.2.0",

@@ -1,14 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router';
+import { Dashboard } from '@polyglot/dashboard-ui';
 
-export const Route = createFileRoute('/')({ component: Home })
+export const Route = createFileRoute('/')({ component: Home });
 
 function Home() {
-  return (
-    <main>
-      <h1>Welcome to TanStack Start</h1>
-      <p>
-        Edit <code>src/routes/index.tsx</code> to get started.
-      </p>
-    </main>
-  )
+  return <Dashboard />;
 }
