@@ -1,0 +1,12 @@
+
+[workspace]
+resolver = "2"
+members = [
+  "apps/topcoat-security",
+  "packages/topcoat/security-domain",
+  "packages/topcoat/security-store",
+  "packages/topcoat/security-ui",
+]
+
+[profile.release]
+lto = true

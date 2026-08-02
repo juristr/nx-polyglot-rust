@@ -1,0 +1,9 @@
+{
+  "name": "security-globe",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/topcoat/security-globe/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project security-globe --web",
+  "targets": {}
+}

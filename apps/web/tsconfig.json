@@ -31,7 +31,7 @@
   },
   "references": [
     {
-      "path": "../../packages/dashboard-ui"
+      "path": "../../packages/web/dashboard-ui"
     }
   ]
 }

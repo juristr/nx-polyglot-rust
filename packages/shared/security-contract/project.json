@@ -1,0 +1,9 @@
+{
+  "name": "security-contract",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/shared/security-contract/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project security-contract --web",
+  "targets": {}
+}

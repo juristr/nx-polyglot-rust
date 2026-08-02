@@ -5,7 +5,13 @@ export default [
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
   {
-    ignores: ['**/dist', '**/out-tsc', '**/routeTree.gen.ts'],
+    ignores: [
+      '**/dist',
+      '**/out-tsc',
+      '**/routeTree.gen.ts',
+      '**/vitest.config.*.timestamp*',
+      '**/vite.config.*.timestamp*',
+    ],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],

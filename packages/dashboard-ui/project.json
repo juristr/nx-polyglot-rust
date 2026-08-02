@@ -1,8 +1,0 @@
-{
-  "name": "dashboard-ui",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/dashboard-ui/src",
-  "projectType": "library",
-  "tags": ["scope:dashboard", "type:ui"],
-  "targets": {}
-}

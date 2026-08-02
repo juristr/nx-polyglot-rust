@@ -1,8 +1,0 @@
-{
-  "name": "dashboard-data",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/dashboard-data/src",
-  "projectType": "library",
-  "tags": ["scope:dashboard", "type:data"],
-  "targets": {}
-}

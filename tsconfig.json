@@ -4,13 +4,22 @@
   "files": [],
   "references": [
     {
-      "path": "./packages/dashboard-data"
+      "path": "./packages/web/dashboard-data"
     },
     {
-      "path": "./packages/dashboard-ui"
+      "path": "./packages/web/dashboard-ui"
     },
     {
       "path": "./apps/web"
+    },
+    {
+      "path": "./packages/web/topcoat-client"
+    },
+    {
+      "path": "./packages/topcoat/security-globe"
+    },
+    {
+      "path": "./packages/shared/security-contract"
     }
   ],
   "compilerOptions": {}

@@ -1,8 +1,7 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/vitest",
-    "jsx": "react-jsx",
     "types": [
       "vitest/globals",
       "vitest/importMeta",
@@ -11,10 +10,7 @@
       "vitest"
     ]
   },
-  "references": [
-    { "path": "./tsconfig.lib.json" },
-    { "path": "../dashboard-data/tsconfig.lib.json" }
-  ],
+  "references": [{ "path": "./tsconfig.lib.json" }],
   "include": [
     "vite.config.ts",
     "vite.config.mts",
