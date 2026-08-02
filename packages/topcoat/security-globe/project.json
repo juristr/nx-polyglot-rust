@@ -5,8 +5,18 @@
   "projectType": "library",
   "tags": ["scope:topcoat", "type:ui", "lang:typescript"],
   "targets": {
+    "vite:build": {
+      "dependsOn": ["^build"],
+      "inputs": [
+        "production",
+        "^production",
+        "{workspaceRoot}/pnpm-lock.yaml",
+        { "externalDependencies": ["vite"] }
+      ]
+    },
     "test": {
       "cache": true,
+      "inputs": ["default", "^default", "{workspaceRoot}/pnpm-lock.yaml"],
       "executor": "nx:run-commands",
       "options": {
         "cwd": "packages/topcoat/security-globe",

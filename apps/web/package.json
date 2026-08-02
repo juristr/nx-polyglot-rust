@@ -16,10 +16,30 @@
     "tags": [
       "scope:web",
       "type:app"
-    ]
+    ],
+    "targets": {
+      "typecheck": {
+        "cache": true,
+        "dependsOn": [
+          "^typecheck"
+        ],
+        "inputs": [
+          "default",
+          "^default",
+          "{workspaceRoot}/tsconfig.base.json",
+          "{workspaceRoot}/pnpm-lock.yaml"
+        ],
+        "executor": "nx:run-commands",
+        "options": {
+          "cwd": "apps/web",
+          "command": "tsc -p tsconfig.typecheck.json"
+        }
+      }
+    }
   },
   "dependencies": {
     "@polyglot/dashboard-ui": "workspace:*",
+    "@polyglot/security-contract": "workspace:*",
     "@polyglot/topcoat-client": "workspace:*",
     "@tanstack/react-router": "latest",
     "@tanstack/react-start": "latest",

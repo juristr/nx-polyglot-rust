@@ -13,7 +13,7 @@
     },
     "./package.json": "./package.json"
   },
-  "devDependencies": {
+  "dependencies": {
     "@polyglot/security-contract": "workspace:*"
   }
 }

@@ -36,6 +36,9 @@
   "references": [
     {
       "path": "../dashboard-data/tsconfig.lib.json"
+    },
+    {
+      "path": "../../shared/security-contract/tsconfig.lib.json"
     }
   ]
 }

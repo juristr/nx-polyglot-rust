@@ -7,7 +7,10 @@
   "targets": {
     "build": {
       "cache": true,
-      "dependsOn": [{ "projects": ["security-globe"], "target": "vite:build" }],
+      "dependsOn": [
+        "^build",
+        { "projects": ["security-globe"], "target": "vite:build" }
+      ],
       "executor": "@monodon/rust:build",
       "outputs": ["{options.target-dir}"],
       "options": {

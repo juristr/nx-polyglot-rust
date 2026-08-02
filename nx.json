@@ -14,6 +14,14 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/src/test-setup.[jt]s"
     ],
+    "rust": [
+      "default",
+      "{workspaceRoot}/Cargo.toml",
+      "{workspaceRoot}/Cargo.lock",
+      "{workspaceRoot}/rust-toolchain.toml",
+      "{workspaceRoot}/.mise.toml",
+      "{workspaceRoot}/pnpm-lock.yaml"
+    ],
     "sharedGlobals": []
   },
   "plugins": [
@@ -82,6 +90,25 @@
   "targetDefaults": {
     "test": {
       "dependsOn": ["^build"]
+    },
+    "@monodon/rust:build": {
+      "cache": true,
+      "inputs": ["rust", "^rust"],
+      "dependsOn": ["^build"]
+    },
+    "@monodon/rust:check": {
+      "cache": true,
+      "inputs": ["rust", "^rust"],
+      "dependsOn": ["^build"]
+    },
+    "@monodon/rust:test": {
+      "cache": true,
+      "inputs": ["rust", "^rust"],
+      "dependsOn": ["^build"]
+    },
+    "@monodon/rust:lint": {
+      "cache": true,
+      "inputs": ["rust", "^rust"]
     }
   }
 }

@@ -13,19 +13,32 @@
   "targets": {
     "build": {
       "cache": true,
-      "outputs": ["{options.outputPath}"],
-      "executor": "@nx/js:tsc",
+      "dependsOn": ["^build"],
+      "inputs": [
+        "production",
+        "^production",
+        "{workspaceRoot}/tsconfig.base.json",
+        "{workspaceRoot}/pnpm-lock.yaml"
+      ],
+      "outputs": ["{projectRoot}/dist"],
+      "syncGenerators": ["@nx/js:typescript-sync"],
+      "executor": "nx:run-commands",
       "options": {
-        "outputPath": "packages/shared/security-contract/dist",
-        "main": "packages/shared/security-contract/src/index.ts",
-        "tsConfig": "packages/shared/security-contract/tsconfig.lib.json"
+        "cwd": "packages/shared/security-contract",
+        "command": "tsc --build tsconfig.lib.json --force"
       }
     },
     "generate": {
       "cache": true,
       "inputs": [
+        "{projectRoot}/package.json",
         "{projectRoot}/rust/**/*",
-        "{workspaceRoot}/packages/topcoat/security-domain/src/**/*"
+        "{workspaceRoot}/packages/topcoat/security-domain/src/**/*",
+        "{workspaceRoot}/Cargo.toml",
+        "{workspaceRoot}/Cargo.lock",
+        "{workspaceRoot}/rust-toolchain.toml",
+        "{workspaceRoot}/.mise.toml",
+        "{workspaceRoot}/pnpm-lock.yaml"
       ],
       "outputs": [
         "{projectRoot}/schema/security-snapshot.schema.json",
@@ -43,6 +56,15 @@
     },
     "test": {
       "cache": true,
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/Cargo.toml",
+        "{workspaceRoot}/Cargo.lock",
+        "{workspaceRoot}/rust-toolchain.toml",
+        "{workspaceRoot}/.mise.toml",
+        "{workspaceRoot}/pnpm-lock.yaml"
+      ],
       "executor": "nx:run-commands",
       "options": {
         "commands": [
