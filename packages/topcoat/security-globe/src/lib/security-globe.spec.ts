@@ -1,7 +1,8 @@
-import { securityGlobe } from './security-globe.js';
+import { severityColor } from './security-globe.js';
 
-describe('securityGlobe', () => {
-  it('should work', () => {
-    expect(securityGlobe()).toEqual('security-globe');
+describe('security globe', () => {
+  it('maps incident severity to stable visual signals', () => {
+    expect(severityColor('critical')).toBe('#ff615b');
+    expect(severityColor('low')).toBe('#7189a5');
   });
 });

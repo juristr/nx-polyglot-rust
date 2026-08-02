@@ -2,6 +2,7 @@
 
 # compiled output
 dist
+apps/topcoat-security/assets/
 tmp
 out-tsc
 

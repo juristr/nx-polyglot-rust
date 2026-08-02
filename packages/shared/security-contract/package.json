@@ -13,5 +13,7 @@
     },
     "./package.json": "./package.json"
   },
-  "dependencies": {}
+  "devDependencies": {
+    "json-schema-to-typescript": "^15.0.4"
+  }
 }

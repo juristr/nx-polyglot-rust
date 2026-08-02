@@ -1,0 +1,226 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SecurityContract",
+  "type": "object",
+  "properties": {
+    "snapshot": {
+      "$ref": "#/$defs/SecuritySnapshot"
+    },
+    "stream_event": {
+      "$ref": "#/$defs/SecurityStreamEvent"
+    }
+  },
+  "required": ["snapshot", "stream_event"],
+  "$defs": {
+    "AttackVector": {
+      "type": "string",
+      "enum": [
+        "credential_stuffing",
+        "ddos",
+        "malware",
+        "phishing",
+        "supply_chain"
+      ]
+    },
+    "GeoLocation": {
+      "type": "object",
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": ["city", "country", "latitude", "longitude"]
+    },
+    "IncidentStatus": {
+      "type": "string",
+      "enum": ["active", "blocked", "investigating"]
+    },
+    "SecurityIncident": {
+      "type": "object",
+      "properties": {
+        "blocked_requests": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "detected_at": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "id": {
+          "type": "string"
+        },
+        "sequence": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "source": {
+          "$ref": "#/$defs/GeoLocation"
+        },
+        "status": {
+          "$ref": "#/$defs/IncidentStatus"
+        },
+        "target": {
+          "$ref": "#/$defs/GeoLocation"
+        },
+        "vector": {
+          "$ref": "#/$defs/AttackVector"
+        }
+      },
+      "required": [
+        "id",
+        "sequence",
+        "detected_at",
+        "source",
+        "target",
+        "severity",
+        "status",
+        "vector",
+        "blocked_requests"
+      ]
+    },
+    "SecuritySnapshot": {
+      "type": "object",
+      "properties": {
+        "generated_at": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "incidents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SecurityIncident"
+          }
+        },
+        "sequence": {
+          "type": "integer",
+          "format": "uint64",
+          "minimum": 0
+        },
+        "summary": {
+          "$ref": "#/$defs/SecuritySummary"
+        },
+        "trend": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SecurityTrendPoint"
+          }
+        },
+        "vectors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VectorBreakdown"
+          }
+        }
+      },
+      "required": [
+        "sequence",
+        "generated_at",
+        "summary",
+        "trend",
+        "vectors",
+        "incidents"
+      ]
+    },
+    "SecurityStreamEvent": {
+      "type": "object",
+      "properties": {
+        "incident": {
+          "$ref": "#/$defs/SecurityIncident"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/SecuritySnapshot"
+        }
+      },
+      "required": ["incident", "snapshot"]
+    },
+    "SecuritySummary": {
+      "type": "object",
+      "properties": {
+        "active_incidents": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "attacks_per_minute": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "blocked_percent": {
+          "type": "number",
+          "format": "double"
+        },
+        "critical_incidents": {
+          "type": "integer",
+          "format": "uint",
+          "minimum": 0
+        },
+        "top_target": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "active_incidents",
+        "attacks_per_minute",
+        "critical_incidents",
+        "blocked_percent",
+        "top_target"
+      ]
+    },
+    "SecurityTrendPoint": {
+      "type": "object",
+      "properties": {
+        "attacks": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "critical": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "label": {
+          "type": "string"
+        }
+      },
+      "required": ["label", "attacks", "critical"]
+    },
+    "Severity": {
+      "type": "string",
+      "enum": ["critical", "high", "medium", "low"]
+    },
+    "VectorBreakdown": {
+      "type": "object",
+      "properties": {
+        "count": {
+          "type": "integer",
+          "format": "uint32",
+          "minimum": 0
+        },
+        "vector": {
+          "$ref": "#/$defs/AttackVector"
+        }
+      },
+      "required": ["vector", "count"]
+    }
+  }
+}

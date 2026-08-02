@@ -3,7 +3,33 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/shared/security-contract/src",
   "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project security-contract --web",
-  "targets": {}
+  "tags": ["scope:shared", "type:contract", "lang:rust", "lang:typescript"],
+  "targets": {
+    "generate": {
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/rust/**/*",
+        "{workspaceRoot}/packages/topcoat/security-domain/src/**/*"
+      ],
+      "outputs": [
+        "{projectRoot}/schema/security-snapshot.schema.json",
+        "{projectRoot}/src/generated.ts"
+      ],
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "mise exec -- cargo run -p security-contract --bin generate-contract",
+          "pnpm --filter @polyglot/security-contract exec json2ts -i schema/security-snapshot.schema.json -o src/generated.ts --no-additionalProperties --style.singleQuote=true --style.printWidth=80"
+        ],
+        "parallel": false
+      }
+    },
+    "test-rust": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "mise exec -- cargo test -p security-contract"
+      }
+    }
+  }
 }

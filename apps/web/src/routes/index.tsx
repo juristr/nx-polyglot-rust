@@ -1,8 +1,31 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { createServerFn, useServerFn } from '@tanstack/react-start';
 import { Dashboard } from '@polyglot/dashboard-ui';
+import { fetchSecuritySnapshot } from '@polyglot/topcoat-client';
 
-export const Route = createFileRoute('/')({ component: Home });
+const loadSecuritySnapshot = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    try {
+      return await fetchSecuritySnapshot();
+    } catch {
+      return null;
+    }
+  },
+);
+
+export const Route = createFileRoute('/')({
+  loader: () => loadSecuritySnapshot(),
+  component: Home,
+});
 
 function Home() {
-  return <Dashboard />;
+  const initialSecuritySnapshot = Route.useLoaderData();
+  const refreshSecuritySnapshot = useServerFn(loadSecuritySnapshot);
+
+  return (
+    <Dashboard
+      initialSecuritySnapshot={initialSecuritySnapshot}
+      loadSecuritySnapshot={refreshSecuritySnapshot}
+    />
+  );
 }

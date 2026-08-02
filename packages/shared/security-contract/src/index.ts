@@ -1,1 +1,1 @@
-export * from './lib/security-contract.js';
+export type * from './generated.js';

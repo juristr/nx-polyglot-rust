@@ -7,6 +7,7 @@
   "targets": {
     "build": {
       "cache": true,
+      "dependsOn": [{ "projects": ["security-globe"], "target": "vite:build" }],
       "executor": "@monodon/rust:build",
       "outputs": ["{options.target-dir}"],
       "options": {
@@ -41,6 +42,7 @@
     },
     "run": {
       "executor": "@monodon/rust:run",
+      "dependsOn": [{ "projects": ["security-globe"], "target": "vite:build" }],
       "outputs": ["{options.target-dir}"],
       "options": {
         "target-dir": "dist/target/topcoat-security"

@@ -9,10 +9,6 @@ export default defineConfig(() => ({
       entryRoot: 'src',
       tsconfigPath: path.join(import.meta.dirname, 'tsconfig.lib.json'),
     }),
-    dts({
-      entryRoot: 'src',
-      tsconfigPath: path.join(import.meta.dirname, 'tsconfig.lib.json'),
-    }),
   ],
   // Uncomment this if you are using workers.
   // worker: {
@@ -23,19 +19,14 @@ export default defineConfig(() => ({
   build: {
     emptyOutDir: true,
     transformMixedEsModules: true,
-    entry: 'src/index.ts',
-    name: 'security-globe',
-    fileName: 'index',
-    formats: ['es' as const],
-    external: [],
     lib: {
       entry: 'src/index.ts',
-      name: 'security-globe',
-      fileName: 'index',
+      name: 'SecurityGlobe',
+      fileName: 'security-globe',
       formats: ['es' as const],
     },
     rolldownOptions: { external: [] },
-    outDir: './dist',
+    outDir: '../../../apps/topcoat-security/assets',
     reportCompressedSize: true,
     commonjsOptions: { transformMixedEsModules: true },
   },

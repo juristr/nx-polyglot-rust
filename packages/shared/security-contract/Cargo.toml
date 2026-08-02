@@ -1,0 +1,17 @@
+[package]
+name = "security-contract"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+path = "rust/lib.rs"
+
+[[bin]]
+name = "generate-contract"
+path = "rust/generate.rs"
+
+[dependencies]
+schemars.workspace = true
+serde_json.workspace = true
+topcoat-security-domain.workspace = true
