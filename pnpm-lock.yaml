@@ -180,6 +180,9 @@ importers:
       '@polyglot/security-contract':
         specifier: workspace:*
         version: link:../../shared/security-contract
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
 
   packages/web/dashboard-data: {}
 
@@ -188,9 +191,6 @@ importers:
       '@polyglot/dashboard-data':
         specifier: workspace:*
         version: link:../dashboard-data
-      '@polyglot/security-contract':
-        specifier: workspace:*
-        version: link:../../shared/security-contract
       '@tanstack/charts':
         specifier: ^0.3.1
         version: 0.3.1
@@ -201,12 +201,15 @@ importers:
         specifier: ^4.0.2
         version: 4.0.2
     devDependencies:
+      '@polyglot/security-contract':
+        specifier: workspace:*
+        version: link:../../shared/security-contract
       '@types/d3-scale':
         specifier: ^4.0.9
         version: 4.0.9
 
   packages/web/topcoat-client:
-    dependencies:
+    devDependencies:
       '@polyglot/security-contract':
         specifier: workspace:*
         version: link:../../shared/security-contract

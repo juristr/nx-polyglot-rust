@@ -16,6 +16,7 @@
     }
   },
   "dependencies": {
-    "@polyglot/security-contract": "workspace:*"
+    "@polyglot/security-contract": "workspace:*",
+    "tslib": "^2.8.1"
   }
 }

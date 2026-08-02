@@ -3,8 +3,24 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/shared/security-contract/src",
   "projectType": "library",
-  "tags": ["scope:shared", "type:contract", "lang:rust", "lang:typescript"],
+  "tags": [
+    "scope:shared",
+    "type:data",
+    "type:contract",
+    "lang:rust",
+    "lang:typescript"
+  ],
   "targets": {
+    "build": {
+      "cache": true,
+      "outputs": ["{options.outputPath}"],
+      "executor": "@nx/js:tsc",
+      "options": {
+        "outputPath": "packages/shared/security-contract/dist",
+        "main": "packages/shared/security-contract/src/index.ts",
+        "tsConfig": "packages/shared/security-contract/tsconfig.lib.json"
+      }
+    },
     "generate": {
       "cache": true,
       "inputs": [
@@ -19,16 +35,21 @@
       "options": {
         "commands": [
           "mise exec -- cargo run -p security-contract --bin generate-contract",
-          "pnpm --filter @polyglot/security-contract exec json2ts -i schema/security-snapshot.schema.json -o src/generated.ts --no-additionalProperties --style.singleQuote=true --style.printWidth=80"
+          "pnpm --filter @polyglot/security-contract exec json2ts -i schema/security-snapshot.schema.json -o src/generated.ts --no-additionalProperties",
+          "pnpm exec prettier --write packages/shared/security-contract/schema/security-snapshot.schema.json packages/shared/security-contract/src/generated.ts"
         ],
         "parallel": false
       }
     },
-    "test-rust": {
+    "test": {
       "cache": true,
       "executor": "nx:run-commands",
       "options": {
-        "command": "mise exec -- cargo test -p security-contract"
+        "commands": [
+          "pnpm --filter @polyglot/security-contract exec vitest run",
+          "mise exec -- cargo test -p security-contract"
+        ],
+        "parallel": false
       }
     }
   }

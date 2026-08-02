@@ -3,7 +3,15 @@
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/topcoat/security-globe/src",
   "projectType": "library",
-  "tags": [],
-  "// targets": "to see all targets run: nx show project security-globe --web",
-  "targets": {}
+  "tags": ["scope:topcoat", "type:ui", "lang:typescript"],
+  "targets": {
+    "test": {
+      "cache": true,
+      "executor": "nx:run-commands",
+      "options": {
+        "cwd": "packages/topcoat/security-globe",
+        "command": "vitest run"
+      }
+    }
+  }
 }

@@ -8,7 +8,7 @@
       "executor": "@monodon/rust:check",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/topcoat-security-domain"
+        "target-dir": "dist/target/topcoat-security-domain/build"
       }
     },
     "test": {
@@ -16,7 +16,7 @@
       "executor": "@monodon/rust:test",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/topcoat-security-domain"
+        "target-dir": "dist/target/topcoat-security-domain/test"
       },
       "configurations": {
         "production": {
@@ -29,7 +29,7 @@
       "executor": "@monodon/rust:lint",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/topcoat-security-domain"
+        "target-dir": "dist/target/topcoat-security-domain/lint"
       }
     }
   },

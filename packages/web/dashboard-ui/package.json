@@ -15,12 +15,12 @@
   },
   "dependencies": {
     "@polyglot/dashboard-data": "workspace:*",
-    "@polyglot/security-contract": "workspace:*",
     "@tanstack/charts": "^0.3.1",
     "@tanstack/react-charts": "^0.3.1",
     "d3-scale": "^4.0.2"
   },
   "devDependencies": {
+    "@polyglot/security-contract": "workspace:*",
     "@types/d3-scale": "^4.0.9"
   }
 }

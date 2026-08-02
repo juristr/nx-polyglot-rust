@@ -11,7 +11,7 @@
       "executor": "@monodon/rust:build",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/topcoat-security"
+        "target-dir": "dist/target/topcoat-security/build"
       },
       "configurations": {
         "production": {
@@ -24,7 +24,7 @@
       "executor": "@monodon/rust:test",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/topcoat-security"
+        "target-dir": "dist/target/topcoat-security/test"
       },
       "configurations": {
         "production": {
@@ -37,7 +37,7 @@
       "executor": "@monodon/rust:lint",
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/topcoat-security"
+        "target-dir": "dist/target/topcoat-security/lint"
       }
     },
     "run": {
@@ -45,7 +45,7 @@
       "dependsOn": [{ "projects": ["security-globe"], "target": "vite:build" }],
       "outputs": ["{options.target-dir}"],
       "options": {
-        "target-dir": "dist/target/topcoat-security"
+        "target-dir": "dist/target/topcoat-security/run"
       },
       "configurations": {
         "production": {
