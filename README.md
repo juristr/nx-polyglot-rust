@@ -1,107 +1,147 @@
-# New Nx Repository
+# Nx Polyglot
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+This is a demo repository for running JavaScript, TypeScript, and Rust projects in one [Nx](https://nx.dev) monorepo.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+It combines a [TanStack Start](https://tanstack.com/start/latest) dashboard with a [Topcoat](https://github.com/tokio-rs/topcoat) Rust application. Both applications have their own packages, tests, builds, and development workflows. Nx brings them into one project graph and coordinates their tasks locally and in CI.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/docs/technologies/typescript/introduction?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
-🚀 If you haven't connected to Nx Cloud yet, [complete your setup here](https://cloud.nx.app/get-started). Get faster builds with remote caching, distributed task execution, and self-healing CI. [See how your workspace can benefit](#nx-cloud).
-## Generate a library
+pnpm manages the JavaScript packages, Cargo manages the Rust crates, and Nx provides the shared task orchestration and caching layer.
 
-```sh
-npx nx g @nx/js:lib packages/pkg1 --publishable --importPath=@my-org/pkg1
-```
+## What's in the repository
 
-## Run tasks
+| Area                                                                       | Description                                                                                       |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| [`apps/web`](./apps/web)                                                   | TanStack Start operations dashboard using TanStack Charts                                         |
+| [`apps/topcoat-security`](./apps/topcoat-security)                         | Topcoat security incident tracker with server-rendered UI, JSON API, and Server-Sent Events       |
+| [`packages/web`](./packages/web)                                           | Dashboard data, React UI, and the client for the Topcoat API                                      |
+| [`packages/topcoat`](./packages/topcoat)                                   | Rust domain, store, and UI crates, plus the TypeScript globe bundled into the Topcoat application |
+| [`packages/shared/security-contract`](./packages/shared/security-contract) | Shared Rust schema and generated TypeScript types                                                 |
 
-To build the library use:
+The security service continuously generates incidents in memory. The standalone Topcoat application renders them as a security operations center. The TanStack application reads the same data through a server function and displays it with TanStack Charts.
 
-```sh
-npx nx run pkg1:build
-```
+## Run the demo
 
-To run any task with Nx use:
-
-```sh
-npx nx run <project-name>:<target>
-```
-
-These targets are either [inferred automatically](https://nx.dev/docs/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/docs/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Versioning and releasing
-
-To version and release the library use
-
-```
-npx nx release
-```
-
-Pass `--dry-run` to see what would happen without actually releasing the library.
-
-[Learn more about Nx release &raquo;](https://nx.dev/docs/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Keep TypeScript project references up to date
-
-Nx automatically updates TypeScript [project references](https://www.typescriptlang.org/docs/handbook/project-references.html) in `tsconfig.json` files to ensure they remain accurate based on your project dependencies (`import` or `require` statements). This sync is automatically done when running tasks such as `build` or `typecheck`, which require updated references to function correctly.
-
-To manually trigger the process to sync the project graph dependencies information to the TypeScript project references, run the following command:
+The workspace expects Node 24, pnpm 11, and the Rust toolchain configured in [`.mise.toml`](./.mise.toml).
 
 ```sh
-npx nx sync
+mise install
+pnpm install
+pnpm exec nx run web:dev
 ```
 
-You can enforce that the TypeScript project references are always in the correct state when running in CI by adding a step to your CI job configuration that runs the following command:
+The `web:dev` target starts the complete development environment:
+
+```text
+web:dev
+  -> topcoat-security:run (continuous)
+       -> security-globe:vite:build
+```
+
+Nx builds the TypeScript globe, starts Topcoat on [localhost:3000](http://localhost:3000), then starts TanStack Start on [localhost:4200](http://localhost:4200). Stopping the Nx command stops the process group.
+
+You can also run the Rust application by itself:
 
 ```sh
-npx nx sync:check
+pnpm exec nx run topcoat-security:run
 ```
 
-[Learn more about nx sync](https://nx.dev/reference/nx-commands#sync)
+## How Nx orchestrates JavaScript and Rust
 
-## Nx Cloud
+Every application and package is represented as an Nx project. Each project exposes targets such as `build`, `test`, `lint`, `typecheck`, `run`, or `dev`.
 
-Nx Cloud ensures a [fast and scalable CI](https://nx.dev/nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+For JavaScript projects, Nx plugins infer many targets from package scripts and tool configuration. Vite, TypeScript, ESLint, and Vitest targets are visible in the project graph, with their existing configuration as the source of truth.
 
-- [Remote caching](https://nx.dev/docs/features/ci-features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/docs/features/ci-features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/docs/features/ci-features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/docs/features/ci-features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Rust projects define targets with the [`@monodon/rust`](https://github.com/Cammisuli/monodon) executors. A Rust library target looks like this:
 
-### Set up CI (non-Github Actions CI)
+```json
+{
+  "build": {
+    "executor": "@monodon/rust:check",
+    "outputs": ["{options.target-dir}"],
+    "options": {
+      "target-dir": "dist/target/topcoat-security-domain/build"
+    }
+  }
+}
+```
 
-**Note:** This is only required if your CI provider is not GitHub Actions.
+Nx schedules the target and handles its dependencies and cache. The executor invokes the matching Cargo operation. The same pattern maps Nx targets to `cargo build`, `cargo test`, `cargo clippy`, and `cargo run`.
 
-Use the following command to configure a CI workflow for your workspace:
+The shared configuration in [`nx.json`](./nx.json) adds Rust-specific cache inputs, including the Cargo manifests, lockfile, toolchain, and dependency sources. Separate target directories keep build, test, lint, and run artifacts isolated.
+
+You can run the main targets across the whole workspace with one command:
 
 ```sh
-npx nx g ci-workflow
+pnpm exec nx run-many -t lint test build typecheck
 ```
 
-[Learn more about Nx on CI](https://nx.dev/docs/features/ci-features?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Nx determines which projects provide each target and invokes the appropriate JavaScript or Rust toolchain.
 
-## Install Nx Console
+## Task pipelines and cross-language dependencies
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+The main pipeline examples are:
 
-[Install Nx Console &raquo;](https://nx.dev/docs/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- [`apps/web/package.json`](./apps/web/package.json) defines the continuous `web:dev` target and its dependency on the Rust server.
+- [`apps/topcoat-security/project.json`](./apps/topcoat-security/project.json) defines Rust build, test, lint, and run targets. Its build and run pipelines depend on the TypeScript globe bundle.
+- [`packages/shared/security-contract/project.json`](./packages/shared/security-contract/project.json) generates a JSON Schema from Rust types and converts it into TypeScript types.
+- [`nx.json`](./nx.json) configures shared target dependencies, cache inputs, and the Monodon plugin.
 
-## 🔗 Learn More
+The explicit globe dependency is important because it crosses toolchains. The Topcoat application serves a JavaScript artifact produced by Vite, so Nx needs an explicit task edge:
 
-- [Nx Documentation](https://nx.dev/docs)
-- [Crafting Your Workspace Tutorial](https://nx.dev/docs/getting-started/tutorials/crafting-your-workspace)
-- [Module Boundaries](https://nx.dev/docs/features/enforce-module-boundaries)
-- [Releasing Packages](https://nx.dev/docs/features/manage-releases)
-- [Nx Plugins](https://nx.dev/docs/concepts/nx-plugins)
-- [Nx Cloud](https://nx.dev/nx-cloud)
+```json
+{
+  "dependsOn": [
+    "^build",
+    { "projects": ["security-globe"], "target": "vite:build" }
+  ]
+}
+```
 
-## 💬 Community
+The `^build` entry builds project dependencies first. The project-specific entry builds the globe before the Rust application.
 
-Join the Nx community:
+Explore the complete graph with:
 
-- [Discord](https://go.nx.dev/community)
-- [X (Twitter)](https://twitter.com/nxdevtools)
-- [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [YouTube](https://www.youtube.com/@nxdevtools)
-- [Blog](https://nx.dev/blog)
+```sh
+pnpm exec nx graph
+```
+
+## CI and distributed execution
+
+The GitHub Actions workflow is defined in [`.github/workflows/ci.yml`](./.github/workflows/ci.yml). It:
+
+1. Installs Node, pnpm, and Rust through mise.
+2. Calculates the affected Git revisions with `nx-set-shas`.
+3. Checks Nx sync state and formatting.
+4. Runs affected `lint`, `test`, `build`, and `typecheck` targets.
+5. Uses Nx Cloud to distribute those tasks across two polyglot agents.
+
+The custom Nx Cloud launch template is in [`.nx/workflows/agents.yaml`](./.nx/workflows/agents.yaml). Each agent has both JavaScript and Rust toolchains, restores pnpm and Cargo caches, installs dependencies, and fetches the locked Cargo dependencies before executing tasks.
+
+```sh
+pnpm exec nx affected -t lint test build typecheck
+```
+
+Nx uses the project graph to select affected projects, restores valid cached results, and distributes the remaining JavaScript and Rust work through the same pipeline.
+
+This demo is connected to the Nx Cloud staging environment so the repository can also exercise custom launch templates and distributed execution.
+
+## Useful commands
+
+```sh
+# List every project
+pnpm exec nx show projects
+
+# Inspect resolved targets, including inferred targets
+pnpm exec nx show project topcoat-security
+pnpm exec nx show project web
+
+# Generate the shared Rust to TypeScript contract
+pnpm exec nx run security-contract:generate
+
+# Check TypeScript project-reference synchronization
+pnpm exec nx sync:check
+
+# Run the main verification targets
+pnpm exec nx run-many -t lint test build typecheck
+```
+
+The repository favors small, visible examples of project boundaries, cache configuration, task dependencies, continuous tasks, and CI distribution. It is intended as a reference for developers exploring how Nx can coordinate multiple languages while each ecosystem keeps its native tooling.
