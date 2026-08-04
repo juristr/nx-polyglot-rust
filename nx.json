@@ -1,9 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "workspaceLayout": {
-    "appsDir": "apps",
-    "libsDir": "packages"
-  },
+  "workspaceLayout": { "appsDir": "apps", "libsDir": "packages" },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
     "production": [
@@ -28,9 +25,7 @@
     {
       "plugin": "@nx/js/typescript",
       "options": {
-        "typecheck": {
-          "targetName": "typecheck"
-        },
+        "typecheck": { "targetName": "typecheck" },
         "build": {
           "targetName": "build",
           "configName": "tsconfig.lib.json",
@@ -39,22 +34,14 @@
         }
       }
     },
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    },
+    { "plugin": "@nx/eslint/plugin", "options": { "targetName": "lint" } },
     {
       "plugin": "@nx/vitest",
       "include": [
         "packages/web/dashboard-data/vitest.config.mts",
         "packages/web/dashboard-ui/vite.config.mts"
       ],
-      "options": {
-        "testTargetName": "test",
-        "testMode": "run"
-      }
+      "options": { "testTargetName": "test", "testMode": "run" }
     },
     "@monodon/rust",
     {
@@ -80,17 +67,9 @@
     }
   ],
   "analytics": true,
-  "generators": {
-    "@nx/react": {
-      "library": {
-        "unitTestRunner": "none"
-      }
-    }
-  },
+  "generators": { "@nx/react": { "library": { "unitTestRunner": "none" } } },
   "targetDefaults": {
-    "test": {
-      "dependsOn": ["^build"]
-    },
+    "test": { "dependsOn": ["^build"] },
     "@monodon/rust:build": {
       "cache": true,
       "inputs": ["rust", "^rust"],
@@ -106,9 +85,8 @@
       "inputs": ["rust", "^rust"],
       "dependsOn": ["^build"]
     },
-    "@monodon/rust:lint": {
-      "cache": true,
-      "inputs": ["rust", "^rust"]
-    }
-  }
+    "@monodon/rust:lint": { "cache": true, "inputs": ["rust", "^rust"] }
+  },
+  "nxCloudId": "6a719b5090488e282b2f44fe",
+  "nxCloudUrl": "https://staging.nx.app"
 }
