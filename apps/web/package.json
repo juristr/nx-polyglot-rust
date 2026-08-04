@@ -18,6 +18,17 @@
       "type:app"
     ],
     "targets": {
+      "dev": {
+        "continuous": true,
+        "dependsOn": [
+          {
+            "projects": [
+              "topcoat-security"
+            ],
+            "target": "run"
+          }
+        ]
+      },
       "build": {
         "cache": true,
         "inputs": [

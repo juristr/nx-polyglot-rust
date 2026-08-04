@@ -44,6 +44,7 @@
       }
     },
     "run": {
+      "continuous": true,
       "executor": "@monodon/rust:run",
       "dependsOn": [{ "projects": ["security-globe"], "target": "vite:build" }],
       "outputs": ["{options.target-dir}"],
