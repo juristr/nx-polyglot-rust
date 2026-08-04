@@ -12,12 +12,14 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
+  actions: read
   contents: read
 
 env:
   CI: true
   NX_DAEMON: false
   NX_TUI: false
+  NX_CLOUD_API: https://staging.nx.app
 
 jobs:
   checks:
@@ -26,6 +28,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          fetch-depth: 0
+          filter: tree:0
 
       - name: Setup Rust with mise
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3
@@ -44,6 +49,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Set affected SHAs
+        uses: nrwl/nx-set-shas@310288c04d90696f9f1bc27c5e3caea6642b53d4 # v5.0.0
+
+      - name: Start Nx Cloud agents
+        run: pnpm exec nx start-ci-run --distribute-on="2 linux-medium-polyglot" --stop-agents-after="lint,test,build,typecheck"
+
       - name: Check workspace sync
         run: pnpm exec nx sync:check
 
@@ -51,4 +62,8 @@ jobs:
         run: pnpm exec nx format:check
 
       - name: Run Nx tasks
-        run: pnpm exec nx run-many -t lint test build typecheck
+        run: pnpm exec nx affected -t lint test build typecheck
+
+      - name: Fix CI
+        if: failure()
+        run: pnpm exec nx fix-ci
