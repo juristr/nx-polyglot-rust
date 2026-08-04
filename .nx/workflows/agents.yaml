@@ -1,0 +1,46 @@
+common-init-steps: &common-init-steps
+  - name: Checkout
+    uses: 'nrwl/nx-cloud-workflows/v6/workflow-steps/checkout/main.yaml'
+
+  - name: Restore pnpm cache
+    uses: 'nrwl/nx-cloud-workflows/v6/workflow-steps/cache/main.yaml'
+    inputs:
+      key: 'pnpm-lock.yaml'
+      paths: '~/.local/share/pnpm/store'
+      base-branch: 'main'
+
+  - name: Restore Cargo cache
+    uses: 'nrwl/nx-cloud-workflows/v6/workflow-steps/cache/main.yaml'
+    inputs:
+      key: 'Cargo.lock|rust-toolchain.toml|.mise.toml'
+      paths: |
+        ~/.cargo/git
+        ~/.cargo/registry
+      base-branch: 'main'
+
+  - name: Install Rust with mise
+    uses: 'nrwl/nx-cloud-workflows/v6/workflow-steps/install-mise/main.yaml'
+
+  - name: Install dependencies
+    uses: 'nrwl/nx-cloud-workflows/v6/workflow-steps/install-node-modules/main.yaml'
+
+  - name: Fetch Rust dependencies
+    script: cargo fetch --locked
+
+  - name: Verify toolchains
+    script: |
+      node --version
+      pnpm --version
+      rustc --version
+      cargo clippy --version
+
+launch-templates:
+  linux-medium-polyglot:
+    resource-class: 'docker_linux_amd64/medium'
+    image: 'ubuntu22.04-node24.14-v1'
+    env:
+      CI: 'true'
+      NX_DAEMON: 'false'
+      NX_TUI: 'false'
+      NX_CLOUD_API: 'https://staging.nx.app'
+    init-steps: *common-init-steps
