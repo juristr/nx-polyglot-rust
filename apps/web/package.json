@@ -65,7 +65,6 @@
   },
   "dependencies": {
     "@polyglot/dashboard-ui": "workspace:*",
-    "@polyglot/security-contract": "workspace:*",
     "@polyglot/topcoat-client": "workspace:*",
     "@tanstack/react-router": "latest",
     "@tanstack/react-start": "latest",

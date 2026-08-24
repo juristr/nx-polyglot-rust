@@ -1,4 +1,7 @@
-import { fetchSecuritySnapshot } from './topcoat-client.js';
+import {
+  fetchSecuritySnapshot,
+  loadSecuritySnapshot,
+} from './topcoat-client.js';
 
 describe('Topcoat client', () => {
   it('loads the shared Rust contract', async () => {
@@ -30,5 +33,13 @@ describe('Topcoat client', () => {
       'http://topcoat.test/api/security/snapshot',
       expect.any(Object),
     );
+  });
+
+  it('hides service outages from consumers', async () => {
+    const request = vi.fn(async () =>
+      Promise.resolve(new Response(null, { status: 503 })),
+    );
+
+    await expect(loadSecuritySnapshot({ fetch: request })).resolves.toBeNull();
   });
 });

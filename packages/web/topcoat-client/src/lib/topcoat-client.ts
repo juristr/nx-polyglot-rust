@@ -42,3 +42,17 @@ export async function fetchSecuritySnapshot(
 
   return (await response.json()) as SecuritySnapshot;
 }
+
+export async function loadSecuritySnapshot(
+  options: TopcoatClientOptions = {},
+): Promise<SecuritySnapshot | null> {
+  try {
+    return await fetchSecuritySnapshot(options);
+  } catch (error) {
+    if (error instanceof TopcoatUnavailableError) {
+      return null;
+    }
+
+    throw error;
+  }
+}

@@ -131,9 +131,6 @@ importers:
       '@polyglot/dashboard-ui':
         specifier: workspace:*
         version: link:../../packages/web/dashboard-ui
-      '@polyglot/security-contract':
-        specifier: workspace:*
-        version: link:../../packages/shared/security-contract
       '@polyglot/topcoat-client':
         specifier: workspace:*
         version: link:../../packages/web/topcoat-client

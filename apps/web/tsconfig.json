@@ -34,9 +34,6 @@
       "path": "../../packages/web/topcoat-client"
     },
     {
-      "path": "../../packages/shared/security-contract"
-    },
-    {
       "path": "../../packages/web/dashboard-ui"
     }
   ]
