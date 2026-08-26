@@ -32,6 +32,11 @@ jobs:
           fetch-depth: 0
           filter: tree:0
 
+      # Start agents as early as possible so they boot while this job installs.
+      # Distribution config lives in .nx/ci-config.yaml
+      - name: Start Nx Cloud agents
+        run: npx nx-cloud start-nx-agents
+
       - name: Setup Rust with mise
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3
 
@@ -51,9 +56,6 @@ jobs:
 
       - name: Set affected SHAs
         uses: nrwl/nx-set-shas@310288c04d90696f9f1bc27c5e3caea6642b53d4 # v5.0.0
-
-      - name: Start Nx Cloud agents
-        run: pnpm exec nx start-ci-run --distribute-on="2 linux-medium-polyglot" --stop-agents-after="lint,test,build,typecheck"
 
       - name: Check workspace sync
         run: pnpm exec nx sync:check
