@@ -87,6 +87,6 @@
     },
     "@monodon/rust:lint": { "cache": true, "inputs": ["rust", "^rust"] }
   },
-  "nxCloudId": "6a719b5090488e282b2f44fe",
+  "nxCloudId": "6a95831432ca41b4e57787f3",
   "nxCloudUrl": "https://staging.nx.app"
 }
