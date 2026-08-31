@@ -6,6 +6,15 @@ It combines a [TanStack Start](https://tanstack.com/start/latest) dashboard with
 
 pnpm manages the JavaScript packages, Cargo manages the Rust crates, and Nx provides the shared task orchestration and caching layer.
 
+## Video and blog post
+
+<a href="https://youtu.be/lyHbNUdLQhI">
+  <img src="https://img.youtube.com/vi/lyHbNUdLQhI/maxresdefault.jpg" alt="Polyglot Nx Monorepo with Rust and TanStack" width="600">
+</a>
+
+- Video: [Polyglot Nx Monorepo with Rust and TanStack](https://youtu.be/lyHbNUdLQhI) (9:40), a walkthrough of the project graph, the shared types generated from Rust, cross-language caching, and distributed CI on Nx Cloud.
+- Blog post: [Exploring Polyglot Monorepos with Nx, TanStack and Rust](https://nx.dev/blog/polyglot-nx-monorepo-rust-tanstack/)
+
 ## What's in the repository
 
 | Area                                                                       | Description                                                                                       |
