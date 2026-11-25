@@ -154,3 +154,12 @@ pnpm exec nx run-many -t lint test build typecheck
 ```
 
 The repository favors small, visible examples of project boundaries, cache configuration, task dependencies, continuous tasks, and CI distribution. It is intended as a reference for developers exploring how Nx can coordinate multiple languages while each ecosystem keeps its native tooling.
+
+## Learn more
+
+- [Exploring Polyglot Monorepos with Nx, TanStack and Rust](https://nx.dev/blog/polyglot-nx-monorepo-rust-tanstack/)
+- [Nx polyglot: Spring Boot + TanStack Start](https://github.com/juristr/nx-polyglot-java-spring), the same idea with a Spring Boot API and OpenAPI-generated types
+- [5 Ways We Solve the CI Bottleneck](https://nx.dev/blog/five-things-faster-cheaper-ci)
+- Nx Cloud CI is currently in private beta. [Sign up to get early access](https://nx.dev/nx-cloud-ci-beta#request-access).
+- [Nx on YouTube](https://www.youtube.com/@nxdevtools)
+- Follow Nx on [X](https://x.com/nxdevtools), [Bluesky](https://bsky.app/profile/nx.dev) and [LinkedIn](https://www.linkedin.com/company/nrwl)
